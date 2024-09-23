@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from scheduling.views import schedule_view, data_input_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('schedule/', schedule_view, name='schedule'),
+    path('data-input/', data_input_view, name='data_input'),
 ]

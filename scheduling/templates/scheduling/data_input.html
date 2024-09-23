@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Input</title>
+</head>
+<body>
+    <h1>Data Input</h1>
+    <form method="post">
+        {% csrf_token %}
+        <h2>Department</h2>
+        {{ department_form.as_p }}
+        <h2>Employee</h2>
+        {{ employee_form.as_p }}
+        <h2>Shift</h2>
+        {{ shift_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{% url 'schedule' %}">View Schedule</a>
+</body>
+</html>
