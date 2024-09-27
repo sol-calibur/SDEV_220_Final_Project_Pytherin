@@ -7,6 +7,15 @@
 </head>
 <body>
     <h1>Schedule</h1>
+    <!-- Display messages if any -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <!-- Table to display the schedule -->
     <table border="1">
         <thead>
             <tr>
@@ -18,6 +27,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Loop through each shift and display its details -->
             {% for shift in shifts %}
             <tr>
                 <td>{{ shift.date }}</td>
