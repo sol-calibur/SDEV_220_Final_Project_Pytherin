@@ -47,6 +47,9 @@ class Shift(models.Model):
     prod_length = 8
     delivery_length = 11
 
-    def __str__(self):
-        
+    def __str__(self, schedule):
+        #Instance Variable  
+        self.schedule = schedule
+
+    
     
