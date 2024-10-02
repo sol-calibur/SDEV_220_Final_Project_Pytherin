@@ -31,22 +31,52 @@ class Employee(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 class Shift(models.Model):
-    #Times will be in 24hr rather than 12hr (1PM will be listed as 13)
+    #Times will be in 24hr rather than 12hr (i.e. 1PM will be listed as 13)
     #Building runs productivity on Mon-Fri. Does not run prod on Sat or Sun.
     #Building runs delivery on 'A' shift and 'B' Shift, which provide coverage for Mon-Sat. Does not deliver on Sundays.
-    vacation_start = 0
-    vacation_end = 0
-    prod_day_start = 8
-    prod_day_end = 16
-    prod_night_start = 18
-    prod_night_end = 2
-    delivery_start = 7
-    delivery_end = 18
-    #In case its easier to work with shift length rather than end times
-    vacation_length = 0
-    prod_length = 8
-    delivery_length = 11
+    days = []
+    start = []
+    end = []
+    length = []
+    employee = None
+    
+    def __init__(self, shift):
+        self.shift = shift
+        return self.shift
 
-    def __str__(self):
-        
+    def schedule(self, shift):
+        if shift == 'vaca':
+            self.days = ['Vacation']
+            self.start = [0]
+            self.end = [0]
+            self.length = [0]
+        if shift == "day":
+            self.days = ['Mon','Tue','Wed','Thu','Fri']
+            self.start = [8]
+            self.end = [16]
+            self.length = [8]
+        if shift == "night":
+            self.days = ['Mon','Tue','Wed','Thu','Fri']
+            self.start = [18]
+            self.end = [2]
+            self.length = [8]
+        if shift == "deliveryA":
+            self.days = ['Mon','Tue','Wed','Thu']
+            self.start = [7]
+            self.end = [18]
+            self.length = [11]
+        if shift == "deliveryB":
+            self.days = ['Tue','Wed','Thu','Fri']
+            self.start = [7]
+            self.end = [18]
+            self.length = [11]
+
+        return self.days
+        return self.start
+        return self.end
+        return self.length
+
+
+
+    
     
