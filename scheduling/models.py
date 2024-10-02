@@ -38,6 +38,7 @@ class Shift(models.Model):
     start = []
     end = []
     length = []
+    employee = None
     
     def __init__(self, shift):
         self.shift = shift
