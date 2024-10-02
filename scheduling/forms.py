@@ -9,9 +9,9 @@ class DepartmentForm(forms.ModelForm):
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['first_name', 'last_name', 'department', 'email', 'phone_number']
+        fields = ['first_name', 'last_name']
 
 class ShiftForm(forms.ModelForm):
     class Meta:
         model = Shift
-        fields = ['date', 'start_time', 'end_time', 'department']
+        fields = ['shift_type', 'date']

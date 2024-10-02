@@ -24,6 +24,7 @@
                 <th>End Time</th>
                 <th>Department</th>
                 <th>Employee</th>
+                <th>Shift Type</th> <!-- New column header for shift type -->
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
                 <td>{{ shift.end_time }}</td>
                 <td>{{ shift.department.name }}</td>
                 <td>{{ shift.employee.first_name }} {{ shift.employee.last_name }}</td>
+                <td>{{ shift.get_shift_type_display }}</td> <!-- Display shift type -->
             </tr>
             {% endfor %}
         </tbody>
