@@ -15,7 +15,34 @@
             {% endfor %}
         </ul>
     {% endif %}
-    <!-- Table to display the schedule -->
+
+<!-- Selection for table display -->
+    
+<form action="/action_page.php">
+    <label for="shift">Choose a Shift:</label>
+    <select name="shift" id="shift">
+      <option value="day" selected>Day</option>
+      <option value="night">Night</option>
+      <option value="delivery a">Delivery A</option>
+      <option value="delivery b">Delivery B</option>
+      <option value="vaca">Vacation</option>
+    </select>
+  </form>
+
+
+<button type="button" onclick="myFunction()">Submit</button>
+
+<p id="demo"></p>
+
+<script>
+    function myFunction() {
+    var x = document.getElementById("shift").value;
+    document.getElementById("demo").innerHTML = x;
+    }
+</script>
+
+
+<!-- Table to display the schedule -->
     <table border="1">
         <thead>
             <tr>
@@ -41,5 +68,6 @@
             {% endfor %}
         </tbody>
     </table>
+
 </body>
 </html>
