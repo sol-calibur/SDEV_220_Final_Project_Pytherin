@@ -16,18 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from scheduling.views import (
-    landing_page_view, schedule_view, data_input_view, get_departments,
-    select_department_view, select_employee_view, create_shift_view
-)
-
+from scheduling import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('schedule/', schedule_view, name='schedule'),
-    path('data-input/', data_input_view, name='data_input'),
-    path('get-departments/', get_departments, name='get_departments'),
-    path('select-department/', select_department_view, name='select_department'),
-    path('select-employee/<int:department_id>/', select_employee_view, name='select_employee'),
-    path('create-shift/<int:department_id>/<int:employee_id>/', create_shift_view, name='create_shift'),
-    path('', landing_page_view, name='landing_page'),
+    path('schedule/', views.schedule_view, name='schedule'),
+    path('data-input/', views.data_input_view, name='data_input'),
+    path('get-departments/', views.get_departments, name='get_departments'),
+    path('select-department/', views.select_department_view, name='select_department'),
+    path('select-employee/<int:department_id>/', views.select_employee_view, name='select_employee'),
+    path('create-shift/<int:department_id>/<int:employee_id>/', views.create_shift_view, name='create_shift'),
+    path('', views.landing_page_view, name='landing_page'),
+    path('generate_shifts/', views.generate_shifts_view, name='generate_shifts'),
+    path('clear_shifts/', views.clear_shifts_view, name='clear_shifts'),
 ]

@@ -1,4 +1,4 @@
-from datetime import timedelta, time
+from datetime import timedelta, time, datetime
 from .models import Department, Employee, Shift
 
 # Function to assign shifts to employees
@@ -28,14 +28,9 @@ def assign_shifts():
     except Exception as e:
         print(f"An error occurred while assigning shifts: {e}")
 
-# Function to check if an employee has a conflict with a shift
 def has_conflict(employee, shift):
-    # Get all shifts assigned to the employee on the same date
     employee_shifts = Shift.objects.filter(employee=employee, date=shift.date)
-    # Iterate through each shift assigned to the employee
     for emp_shift in employee_shifts:
-        # Check if the shift times overlap
         if (shift.start_time < emp_shift.end_time and shift.end_time > emp_shift.start_time):
             return True
-    # Return False if no conflicts are found
     return False

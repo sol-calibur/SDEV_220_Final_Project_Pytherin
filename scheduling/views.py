@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import DepartmentForm, EmployeeForm, ShiftForm
 from .scheduler import assign_shifts
 from .models import Shift, Department, Employee
 from django.http import JsonResponse
+from django.core.management import call_command
+import csv
 
 # View to display the schedule
 def schedule_view(request):
@@ -78,17 +80,57 @@ def select_employee_view(request, department_id):
 
 # View to create a shift
 def create_shift_view(request, department_id, employee_id):
-    department = Department.objects.get(id=department_id)
-    employee = Employee.objects.get(id=employee_id)
+    department = get_object_or_404(Department, id=department_id)
+    employee = get_object_or_404(Employee, id=employee_id)
     if request.method == 'POST':
         form = ShiftForm(request.POST)
         if form.is_valid():
             shift = form.save(commit=False)
             shift.department = department
             shift.employee = employee
-            shift.schedule()  # Call the schedule method to set start_time and end_time
             shift.save()
+            messages.success(request, 'Shift created successfully')
             return redirect('schedule')
     else:
         form = ShiftForm()
     return render(request, 'scheduling/create_shift.html', {'form': form, 'department': department, 'employee': employee})
+
+def swap_shift_view(request, shift_id, new_employee_id):
+    shift = Shift.objects.get(id=shift_id)
+    new_employee = Employee.objects.get(id=new_employee_id)
+
+    if not has_conflict(new_employee, shift):
+        shift.employee = new_employee
+        shift.save()
+        messages.success(request, 'Shift swapped successfully')
+    else:
+        messages.error(request, 'Shift swap failed due to conflict')
+
+    return redirect('schedule')
+
+def generate_shift_report(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="shift_report.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Date', 'Start Time', 'End Time', 'Department', 'Employee'])
+
+    shifts = Shift.objects.all()
+    for shift in shifts:
+        writer.writerow([shift.date, shift.start_time, shift.end_time, shift.department.name, shift.employee])
+
+    return response
+
+def generate_shifts_view(request):
+    if request.method == 'POST':
+        call_command('generate_shifts')
+        messages.success(request, 'Successfully generated shifts')
+        return redirect('schedule')
+    return render(request, 'scheduling/generate_shifts.html')
+
+def clear_shifts_view(request):
+    if request.method == 'POST':
+        call_command('clear_shifts')
+        messages.success(request, 'Successfully cleared all assigned shifts')
+        return redirect('schedule')
+    return render(request, 'scheduling/clear_shifts.html')
